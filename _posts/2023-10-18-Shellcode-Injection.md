@@ -90,7 +90,7 @@ Our malware is detected by many antivirus as trojan like Windows Defender. Unfor
 <img src="../assets/shellcode_injection_1.png">
 
 
-### Score without xored encryption
+### Score with xored encryption
 <img src="../assets/shellcode_injection_2.png">
 
 </br> 
