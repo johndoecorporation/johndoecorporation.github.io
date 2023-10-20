@@ -188,7 +188,6 @@ class Program
   <source src="../assets/shellcode_injection_poc.mp4" type="video/mp4">
 </video>
 
-</br>
 
 # Result
 

