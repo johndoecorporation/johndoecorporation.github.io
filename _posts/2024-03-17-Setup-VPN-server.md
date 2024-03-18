@@ -23,7 +23,8 @@ Certainly! VPN stands for Virtual Private Network. It's a service that allows yo
 Here's how it works:
 
 <img src="../assets/vpn.png">
-
+<br/>
+<br/>
 Encryption: When you connect to a VPN server, your device creates a secure, encrypted tunnel to that server. This encryption ensures that any data transmitted between your device and the VPN server is scrambled and unreadable to anyone who might intercept it.
 
 IP Address Masking: Your internet traffic appears to come from the VPN server rather than your own device. This masks your IP address, making it more difficult for websites and online services to track your location or identify you.
@@ -41,7 +42,8 @@ To build a VPN server we need ... a server ! I've a VPS located in Germany with 
 
 In my case, I've bought a VPS server with Ubuntu 22.04 image installed. I think it's the most adapted OS to easily achieve our project. But in this tutorial, I believe you can realized the same result with any other linux distribution.
 
-<img src="../assets/vpn_vps.png" >
+<img src="../assets/vpn_vps_ionos.png">
+<br/>
 
 We also need a VPN client to etablish a connection between my device and the VPN server. I recommend <a src="https://openvpn.net/client/client-connect-vpn-for-windows/"> OpenVPN connect </a>
 
@@ -68,20 +70,17 @@ apt update && apt -y install openvpn-as
 
 At end of installation you should have a message that inform you how to acces admin platform.
 
-</br>
-
+<br/>
 <img src="../assets/OpenVPN.png">
-
-</br>
+<br/>
 
 In my case, let's connect to my panel admin from 
 https://85.215.236.90:943/admin
 
-</br>
 
+<br/>
 <img src="../assets/vpn_admin_panel.png">
-
-</br>
+<br/>
 
 Just type your credentials and log in your WebUI interface.
 
@@ -91,40 +90,44 @@ Well, we've installed OpenVPN, now let's do a configuration.
 We create one user witn admin right. OpenVPN has free plan that allow two users connected in same time. You have to upgrade the plan if you want manager more connections.
 Asign a password to this user by clicking on "More settings"
 
+<br/>
 <img src="../assets/user_vpn.png">
+
+<br/>
 
 Then, create a new user profile. It will generate a ovpn file. 
 
+<br/>
 <img src="../assets/new_profile_vpn.png">
+<br/>
 
 # Test connection
 
 Open your OpenVPN Connect app. Import the profile that you have just created in the previous step.
 
-</br>
 
+<br/>
 <img src="../assets/upload_profile_vpn.png">
+<br/>
 
-</br>
 Then enter the password for the user concerned. You should have etablished the connection.
 
-</br>
 
 <img src="../assets/openvpnconnection.png">
 
-</br>
+<br/>
 
 Let's see our status connection with several informations
 
-</br>
+<br/>
 
 ```cs
 curl ipinfo.io
 ```
-
-</br>
+<br/>
 
 <img src="../assets/vpn_status.png">
+
 
 # References
 * [https://www.kaspersky.com/resource-center/definitions/what-is-a-vpn](https://www.kaspersky.com/resource-center/definitions/what-is-a-vpn)
